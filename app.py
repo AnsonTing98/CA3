@@ -1,4 +1,4 @@
-from flask import Flask, request, url_for, redirect, render_template, jsonify
+from flask import Flask, request, url_for, redirect, render_template
 from joblib import load
 import pandas as pd
 import numpy as np
@@ -17,19 +17,17 @@ def home():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    int_features = [x for x in request.form.values()]
-    final = np.array(int(int_features))
-    data_unseen = pd.DataFrame([final], columns = cols)
-    prediction = model.predict(data_unseen.values)
+    features = [x for x in request.form.values()]
+    predict_data = np.array(features)
+    data = pd.DataFrame([predict_data], columns = cols)
+    prediction = model.predict(data.values)
     return render_template('home.html', pred='The Animal Type is {}'.format(prediction))
 
-@app.route('/predict_api',methods=['POST'])
-def predict_api():
-    data = request.get_json(force=True)
-    data_unseen = pd.DataFrame([data])
-    prediction = predict_model(model, data=data_unseen)
-    output = prediction.Label[0]
-    return jsonify(output)
+@app.route('/prediction')
+def prediction():
+    list = request.args.getlist('list', type=int)
+    predicts = model.predict([list])
+    return "The Animal Type is " + str(predicts)
 
 if __name__ == '__main__':
     app.run()

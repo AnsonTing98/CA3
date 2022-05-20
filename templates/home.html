@@ -5,13 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Animal Predict Application</title>
-    <link type="text/css" rel="stylesheet" href="style.css">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='./style.css') }}">
 </head>
 <body>
  <div class="home">
 	<h1>Animal Predict Application</h1>
+	<h4>1 for Yes, 0 for No</h4>
 
-     	<!-- Form to enter new data for predictions  -->
     	<form action="{{ url_for('predict')}}" method="POST">
       	  <input type="number" name="hair" id="hair" placeholder="Does the animal has hair? " min="0" max="1" required="required" />
       	  <input type="number" name="feathers" placeholder="Does the animal has feather? " min="0" max="1" required="required" />
